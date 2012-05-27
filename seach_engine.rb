@@ -1,4 +1,4 @@
-#coding:utf-8
+﻿#coding:utf-8
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
@@ -29,7 +29,7 @@ search_form.field_with(:name => component2).value = key
 search_results = agent.submit(search_form)
 #first page
 link_hash = Hash.new
-link_array = []
+#link_array = []
 qq_array = []
 search_results.body.scan(Regexp.new(inforegex,Regexp::MULTILINE | Regexp::IGNORECASE | Regexp::EXTENDED)).each do |qq|
    qq_array << qq.to_s.gsub(/\D/,"")
@@ -40,13 +40,13 @@ search_results.body.scan(Regexp.new(inforegex,Regexp::MULTILINE | Regexp::IGNORE
  pageindex = full.match(Regexp.new(pageregex,Regexp::MULTILINE | Regexp::IGNORECASE | Regexp::EXTENDED))
  if !pageindex.nil?
    link_hash [pageindex.to_s.gsub(/\D/,"")] = full
-   link_array << full
+   #link_array << full
  end
  end
 #other pages
   usinglink = ""
-  0.upto(50).each do |i|
-  usinglink =   link_array[i]
+  1.upto(50).each do |i|
+  usinglink =   link_hash[i]
   puts "Start grasp page #{i}"
   count = 0
   puts usinglink
@@ -58,7 +58,7 @@ search_results.body.scan(Regexp.new(inforegex,Regexp::MULTILINE | Regexp::IGNORE
    if !link_hash.has_key?(pageindex.to_s.gsub(/\D/,""))
    puts "add !!!"
    link_hash [pageindex.to_s.gsub(/\D/,"")] = full
-   link_array << full
+   #link_array << full
   end
   end
   end
