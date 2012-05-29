@@ -12,8 +12,9 @@ if(db.nil?)
   puts "cannot connect to mysql!"
   exit(0)
 end
-db.query("SET NAMES 'GBK'")
-db.query("insert into activity values ('1','Hiking','2012-5-31','虎跑公园','不限','','自备干粮','')")
+
+db.query("SET NAMES 'utf8'")
+db.query("insert into activity values ('Hiking','2012-5-31','虎跑公园','不限','','自备干粮','','')")
 $debug=true
 logger = Logger.new("huodong.log")
 logger.info("Start to grasp!") 
@@ -52,12 +53,12 @@ a.get(url) do |page|
             item_link = name.attribute("href")
             puts item_link
             a.get(item_link) do |detail| 
-              details = detail.parser.css("div.fix")[0].css('p')
-              puts details
-              logger.info("活动内容："+details.to_s) 
-              i =1
-              #db.query("insert into activity values (#{i},#{content[0]},#{content[1]},#{content[2]},'不限','',#{details.to_s},'')")
-              i+=1  
+              #details = detail.parser.css("div.fix").css('p')
+              #puts details
+              #logger.info("活动内容："+details.to_s) 
+              logger.info "#{name.text.to_s.encode('UTF-8')},#{content[0].text.to_s.encode('UTF-8')},#{content[1].text.to_s.encode('UTF-8')}"
+              #db.query("insert into activity values ('")
+              db.query("insert into activity values ('#{name.text.to_s.encode('UTF-8')}','#{content[0].text.to_s.encode('UTF-8')}','#{content[1].text.to_s.encode('UTF-8')}','不限','','','','')")
             end
           end
         end
